@@ -1,22 +1,22 @@
 ﻿using HW5_L5;
 
 
-string[] category = { "Dog", "Cat", "Fish", "Bird" };
-
-string[] menu = { "Add New Pet", "Show All Pets Info","Show Pet Info By Name", "Remove Pet By Name",
-    "Send Pet To Eat By Name","Send Pet To Sleep By Name", "Show Total Eaten Food Count",
-    "Show Total Price of Pets", "Show Pets. if entered value <= Pet Energy", "Exit" };
-
+string[] menu = {
+    "Add New Pet", "Show All Pets Info","Show Pet Info By Name",
+    "Remove Pet By Name", "Update Pet Info By Name", "Send Pet To Eat By Name",
+    "Send Pet To Play By Name", "Send Pet To Sleep By Name", "Show Total Eaten Food Count",
+    "Show Total Price of Pets", "Show Pets. if entered value <= Pet Energy",
+    "Exit" };
 
 int opt = 0, totalEatenFood = 0;
 
-PetShop petShop = new("MyPetShop");
+PetShop petShop = new(" Pet Shop ");
 
 while (true)
 {
     Console.Clear();
     Console.ForegroundColor = ConsoleColor.Cyan;
-    Console.WriteLine("\n\t\t~~~~~~  Welcome The PetShop  ~~~~~~\n\n");
+    Console.WriteLine($"\n\t\t~~~~~~  Welcome The {petShop.ShopName}  ~~~~~~\n\n");
     Console.ForegroundColor = ConsoleColor.White;
 
     for (int k = 0; k < menu.Length; k++)
@@ -37,13 +37,14 @@ while (true)
     {
         if (opt == menu.Length-1)
         {
-            Thread.Sleep(500);
-            break;
+            Console.WriteLine("\n\n\t\tExiting...");
+            Pause(); break;
         }
 
         if (opt == 0)
         {
             int opt2 = 0;
+            string[] category = { "Dog", "Cat", "Fish", "Bird" };
 
             while (true)
             {
@@ -66,12 +67,11 @@ while (true)
                 if (KeyCheck(ref opt2, 0, (category.Length-1)))
                 {
                     Console.Clear();
-                    
+
                     string? n = "", g = "";
                     int a = 0, e = 0, p = 0, mq = 0;
 
                     Console.WriteLine("\n\t\t\tNew Pet Adding.");
-
 
                     Console.Write("\n\tEnter a Name : ");
                     n=Console.ReadLine();
@@ -156,10 +156,8 @@ while (true)
         }
         else if (opt == 2)
         {
-            string name;
-
-            Console.WriteLine("\tEnter a Name : ");
-            name = Console.ReadLine();
+            Console.Write("\tEnter a Name : ");
+            string? name = Console.ReadLine();
 
             int index; string type;
 
@@ -180,10 +178,8 @@ while (true)
         }
         else if (opt == 3)
         {
-            string name;
-
-            Console.WriteLine("\tEnter a Name : ");
-            name = Console.ReadLine();
+            Console.Write("\tEnter a Name : ");
+            string? name = Console.ReadLine();
 
             int index; string type;
 
@@ -197,18 +193,107 @@ while (true)
             if (type=="") { Console.WriteLine("\n\n\t\tPet Don't Find !"); }
             else if (type=="dog") { petShop.RemoveDogByIndex(index); }
             else if (type=="cat") { petShop.RemoveCatByIndex(index); }
-            else if (type=="bird") { petShop.RemoveDogByIndex(index); }
-            else if (type=="fish") { petShop.RemoveDogByIndex(index); }
+            else if (type=="bird") { petShop.RemoveBirdByIndex(index); }
+            else if (type=="fish") { petShop.RemoveFishByIndex(index); }
 
             Console.WriteLine("\n\n\t\tPet Successfully Removed.");
             Pause();
         }
         else if (opt == 4)
         {
-            string? name;
+            Console.Write("\tEnter a Name : ");
+            string? n = Console.ReadLine();
 
-            Console.WriteLine("\tEnter a Name : ");
-            name = Console.ReadLine();
+            int index; string type;
+
+            if (!(petShop.GetIndex(n, out type, out index)))
+            {
+                Console.WriteLine("\n\n\t\tPet Don't Find !");
+                Pause();
+                continue;
+            }
+
+            Animal pet = null;
+
+            if (type=="") { Console.WriteLine("\n\n\t\tPet Don't Find !"); }
+            else if (type=="dog") { pet = petShop.GetDogByIndex(index); }
+            else if (type=="cat") { pet = petShop.GetCatByIndex(index); }
+            else if (type=="bird") { pet = petShop.GetBirdByIndex(index); }
+            else if (type=="fish") { pet = petShop.GetFishByIndex(index); }
+
+            int opt3 = 0;
+            string[] menu2 = {
+                "Name", "Gender", "Age", "Price",
+                "MealQuantity","Exit" };
+
+            while (true)
+            {
+                Console.Clear(); Console.WriteLine("\n\n");
+
+                for (int i = 0; i < menu2.Length; i++)
+                {
+                    if (opt3 == i)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.WriteLine($"\t\t\t{menu2[i]}");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"\t\t\t{menu2[i]}");
+                    }
+                }
+
+                if (KeyCheck(ref opt3, 0, (menu2.Length-1)))
+                {
+                    if (opt3 == menu2.Length-1 || (pet == null))
+                    {
+                        Pause(); break;
+                    }
+
+                    if (opt3 == 0)
+                    {
+                        Console.Write("\n\n\t\tEnter a New Name : ");
+                        string? name = Console.ReadLine();
+
+                        pet.Name = name;
+                    }
+                    else if (opt3 == 1)
+                    {
+                        Console.Write("\n\n\t\tEnter a New Gender : ");
+                        string? gender = Console.ReadLine();
+
+                        pet.Gender = gender;
+                    }
+                    else if (opt3 == 2)
+                    {
+                        Console.Write("\n\n\t\tEnter a New Age : ");
+                        int age = int.Parse(Console.ReadLine());
+
+                        pet.Age=age;
+                    }
+                    else if (opt3 == 3)
+                    {
+                        Console.Write("\n\n\t\tEnter a New Price : ");
+                        int price=int.Parse(Console.ReadLine());
+
+                        pet.Price = price;
+                    }
+                    else if (opt3 == 4)
+                    {
+                        Console.Write("\n\tEnter a Meal Quantity : ");
+                        int mQuantity=int.Parse(Console.ReadLine());
+
+                        pet.MealQuantity = mQuantity;
+                    }
+
+                }
+            }
+        }
+        else if (opt == 5)
+        {
+            Console.Write("\tEnter a Name : ");
+            string? name = Console.ReadLine();
 
             int index; string type;
 
@@ -229,12 +314,33 @@ while (true)
             Console.WriteLine("\n\n\t\tPet Eating ...");
             Pause();
         }
-        else if (opt == 5)
+        else if (opt == 6)
         {
-            string? name;
+            Console.Write("\tEnter a Name : ");
+            string? name = Console.ReadLine();
 
-            Console.WriteLine("\tEnter a Name : ");
-            name = Console.ReadLine();
+            int index; string type;
+
+            if (!(petShop.GetIndex(name, out type, out index)))
+            {
+                Console.WriteLine("\n\n\t\tPet Don't Find !");
+                Pause();
+                continue;
+            }
+
+            if (type=="") { Console.WriteLine("\n\n\t\tPet Don't Find !"); }
+            else if (type=="dog") { petShop.GetDogByIndex(index).Play(); }
+            else if (type=="cat") { petShop.GetCatByIndex(index).Play(); }
+            else if (type=="bird") { petShop.GetBirdByIndex(index).Play(); }
+            else if (type=="fish") { petShop.GetFishByIndex(index).Play(); }
+
+            Console.WriteLine("\n\n\t\tPet Playing ...");
+            Pause();
+        }
+        else if (opt == 7)
+        {
+            Console.Write("\tEnter a Name : ");
+            string? name = Console.ReadLine();
 
             int index; string type;
 
@@ -254,21 +360,20 @@ while (true)
             Console.WriteLine("\n\n\t\tPet Sleeping ...");
             Pause();
         }
-        else if (opt == 6)
+        else if (opt == 8)
         {
             Console.WriteLine($"\n\n\t\tTotal Eaten Food Count : {totalEatenFood} .");
             Pause();
         }
-        else if (opt == 7)
+        else if (opt == 9)
         {
             Console.WriteLine($"\n\n\t\tTotal Pet Price : {petShop.GetTotalPetPrice()} $");
             Pause();
         }
-        else if (opt == 8)
+        else if (opt == 10)
         {
-            int value = 0;
-            Console.WriteLine("\tEnter a Energy Value : ");
-            value = int.Parse(Console.ReadLine());
+            Console.Write("\tEnter a Energy Value : ");
+            int value = int.Parse(Console.ReadLine());
 
             if (value < 1)
             {
@@ -278,12 +383,7 @@ while (true)
             }
 
             petShop.ShowPetsByEnergy(value);
-        }
-        else if (opt == 9)
-        {
-            Console.WriteLine("\n\n\t\tExiting...");
-            Thread.Sleep(1099);
-            return;
+            Pause();
         }
     }
 }
@@ -313,7 +413,7 @@ bool KeyCheck(ref int option, int min, int max)
     return false;
 }
 
-void Pause()
+static void Pause()
 {
     Console.ForegroundColor = ConsoleColor.DarkRed;
     Console.WriteLine("\n\n\t\tPress any key to Continue ....");

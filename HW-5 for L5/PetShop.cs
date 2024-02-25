@@ -120,46 +120,74 @@ public class PetShop
 
     public void ShowAllPets()
     {
+        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("\n\t---  Dogs  ---");
+        Console.ForegroundColor = ConsoleColor.Yellow;
         foreach (var dog in Dogs) { dog.ShowInfo(); }
 
+        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("--------------------------------------------" +
             "\n\t---  Cats  ---");
+        Console.ForegroundColor = ConsoleColor.Yellow;
         foreach (var cat in Cats) { cat.ShowInfo(); }
 
+        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("--------------------------------------------" +
             "\n\t---  Fishes  ---");
+        Console.ForegroundColor = ConsoleColor.Yellow;
         foreach (var fish in Fishes) { fish.ShowInfo(); }
 
+        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("--------------------------------------------" +
             "\n\t---  Birds  ---");
+        Console.ForegroundColor = ConsoleColor.Yellow;
         foreach (var bird in Birds) { bird.ShowInfo(); }
+        Console.ForegroundColor = ConsoleColor.White;
     }
 
     public void ShowPetsByEnergy(int energy)
     {
-        Console.WriteLine("\n\t---  Dogs  ---");
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("\n\n\t---  Dogs  ---\n");
+        Console.ForegroundColor = ConsoleColor.Yellow;
+
         foreach (var dog in Dogs) { 
             if(dog.Energy >= energy) dog.ShowInfo(); 
         }
 
+        Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("\n--------------------------------------------");
+        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("\n\t---  Cats  ---");
+        Console.ForegroundColor = ConsoleColor.Yellow;
+
         foreach (var cat in Cats) { 
             if (cat.Energy >= energy) cat.ShowInfo();
         }
 
+        Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("\n--------------------------------------------");
+        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("\n\t---  Fishes  ---");
+        Console.ForegroundColor = ConsoleColor.Yellow;
+
         foreach (var fish in Fishes) { 
             if (fish.Energy >= energy) fish.ShowInfo();
         }
 
+        Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("\n--------------------------------------------");
+        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("\n\t---  Birds  ---");
+        Console.ForegroundColor = ConsoleColor.Yellow;
+
         foreach (var bird in Birds) {
             if (bird.Energy >= energy) bird.ShowInfo();
         }
+
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("\n--------------------------------------------");
+        Console.ForegroundColor = ConsoleColor.White;
     }
 
     public int GetTotalPetCount()
